@@ -4,12 +4,27 @@
 ## Write a short comment describing this function
 
 makeCacheMatrix <- function(x = matrix()) {
-    #comment to test commit/push
+    
+    setinv <- function(solved) inv <<- solved
+        
+    getinv <- function() inv
+        
+    list(setinv = setinv, getinv = getinv)
 }
 
 
 ## Write a short comment describing this function
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    m <- x$getinv
+    if(is.na(m)){
+        message("using cached inverse matrix")
+        return(m)
+    }
+    
+    m <- solve(...)
+    x$setinv(m)
+    m
+
+    ## Return a matrix that is the inverse of 'x'
 }
