@@ -1,13 +1,13 @@
 ## The functions below allow the creation of a special matrix object, which can 
-## cache the inverse of the matrix once it has been calculated. if the inverse
-## has been cached, the inversion calcualtion is not repeated, rather the 
-## cached inverted matrix is simply retrieved and returned.
+## cache the inverse of the matrix held within the object once it has been calculated. 
+## Once the inverse has been cached, the inversion calcualtion is not repeated, 
+## rather the cached inverted matrix is simply retrieved and returned.
 
 
 
 ## makeCacheMatric takes a matrix as the only argument and makes a special matrix object,
-## which provides a set of 4 functions to allow setting/getting of the matrix and a 
-## cached variable (which dosen't strictly have to be a matrix)
+## exposing a set of 4 functions to allow setting/getting of the matrix and a 
+## cached variable (which dosen't strictly have to be a matrix but it is in this case)
 
 makeCacheMatrix <- function(mx = matrix()) {
     
@@ -30,22 +30,22 @@ makeCacheMatrix <- function(mx = matrix()) {
     ## function that returns the cached item    
     getinv <- function() inv
     
-    ## returns the functions above to the special matrix object  
+    ## returns the functions above  
     list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
 
-## function takes the special matrix object created by makeCacheMatrix
-## and calculates the inverse of the matrix and stores it back in the
+## cacheSolve takes the special matrix object created by makeCacheMatrix
+## and calculates the inverse of the matrix and caches it back in the
 ## special matrix object, unless the inverse has already been cached, 
-## in which case it simply retrieves it
+## in which case it simply retrieves and returns the inverse
 
 cacheSolve <- function(x, ...) {
     
     ## get the chached inverse (if it exists)
     mx <- x$getinv()
 
-    ## if the cached inverse exists, return it and end
+    ## if the cached inverse exists, return it and end execution
     if(!is.null(mx)){
         message("using cached inverse matrix")
         return(mx)
@@ -59,7 +59,6 @@ cacheSolve <- function(x, ...) {
     mx <- solve(mat)
     x$setinv(mx)
     
-    ## Return a matrix that is the inverse of the matrix 
-    ## stored in the special matrix object
+    ## Return the inverted matrix 
     mx
 }
